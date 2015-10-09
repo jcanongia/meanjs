@@ -1,0 +1,440 @@
+??????????????????????????????????????????????????????????????????????????????????????
+OU USAR http://mean.io/#!/ FOI DESCONTINUADO, A EQUIPE DESENVOLVE O MEANJS AGORA.
+-- METEOR -  MUITO PRE MOLDADO, PODE SER PROBLEM�TICO NA CUSTOMIZA��O
+??????????????????????????????????????????????????????????????????????????????????????
+
+**************************************************
+http://www.bossable.com/303/install-mean-stack/
+**************************************************
+
+******************************************************************************************************
+Instalar Node.js, MongoDB, Git e Bower ("C:\Users\Fundtromp-tr02\Downloads\ANDROID\Install_Deploy ANGULAR_JS.txt")
+******************************************************************************************************
+*****Instalar o Java SDK - http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html
+-- Colocar o java no raiz, evita problemas futuros;
+-- Inserir o PATH do JAVA nas Vari�veis de Ambiente: JAVA_HOME e JAVA_RE_HOME
+
+*****Instalar o Android SDK - https://developer.android.com/sdk/index.html#Other
+-- Guardar o Path da instala��o para posterior edi��o das
+   Vari�veis do Sistema;
+-- Abrir o Android SDK Manager e instalar os pacotes do 4.4 em diante;
+-- Inserir o PATH do ADK nas Vari�veis de Ambiente:
+   C:\Users\Fundtromp-tr02\AppData\Local\Android\sdk\platform-tools;
+   C:\Users\Fundtromp-tr02\AppData\Local\Android\sdk\tools;
+
+---LogOff e verificar teclando adb no promt de comando, deve aparecer uma listagem de help
+
+*****Instalar o NodeJS - https://nodejs.org/
+-- Colocar no raiz, evita problemas futuros;
+-- Inserir o PATH do express nas Vari�veis de Ambiente:
+     setx NODE_PATH "%NODE_PATH%;C:\Users\Fundtromp-tr02\AppData\Roaming\npm\node_modules"
+
+---LogOff e verificar teclando npm no promt de comando
+
+*****Instalar o MongoDB
+--Download MongoDB
+    Unzip, extracts to your prefer location, for example : d:\mongodb\.
+--o diret�rio db deve estar vazio
+
+--sc.exe create MongoDB binPath= "C:\mongodb\Server\3.0\bin\mongod.exe --service --config=\"C:\mongodb\mongod.cfg\"" DisplayName= "MongoDB" start= "auto"
+
+ >net start MongoDB
+ net stop MongoDB
+
+--Verifica��o
+  >mongod --version
+
+*** Iniciar o Mongodb
+   >aplica��o>mongod --config c:\mongodb\mongod.cfg <!-- Se der erro de FileNotOpen Failed to open "C:\mongodb\data\log\mongodb.log" renomear o arquivo de log.
+
+---ou como servi�o,
+   iniciar como administrador e
+   >net start MongoDB
+
+****Colocando login e senha no MongoDB ****
+1) In mongo command line: (let say, set administrator)
+  > use admin;
+  > db.addUser('admin','123456');
+2) Shutdown Server and exit
+  > db.shutdownServer();
+  > exit
+3) Restart  Mongod with --auth
+  $ sudo ./mongodb/bin/mongod --auth --dbpath /mnt/db/
+4) Run mongo again in 2 ways:
+  i)  run mongo first then login.
+   $ ./mongodb/bin/mongo localhost:27017
+   > use admin
+   > db.auth('admin','123456');
+  ii) run & login to mongo in command line.
+   $ ./mongodb/bin/mongo localhost:27017/admin -u admin-p 123456
+
+* The username & password will work the same for mongodump and mongoexport.
+
+*****No WINDOWS instalar:
+   ** Instalar o Python 2.7 (3.x.x not supported)
+      https://www.python.org/downloads/release/python-2710/
+
+   ** Instalar o Microsoft Visual Studio C++ 2012 Express
+      http://www.microsoft.com/en-us/download/details.aspx?id=34673
+
+***Instalar o Grunt
+   $ npm install -g grunt-cli
+
+***Instalar o Bower
+   $ npm install -g bower
+
+***Instalar o YEOman
+   $ npm install -g yo
+
+***Instalar o node-gyp
+   >npm install -g node-gyp
+
+***Instalar o Mean.JS
+   >npm install -g generator-meanjs
+
+	OU
+		**Criar o diretorio meanjs no user/AppDAta/Roaming/npm/node_modules
+		**cd user/AppDAta/Roaming/npm/node_modules/meanjs
+		**git clone https://github.com/meanjs/mean.git meanjs
+
+***********************************************************************
+*****Construindo sua aplica��o
+***********************************************************************
+** >cd <myApp>
+
+** >yo meanjs  {Tem um bug, o dir da aplica��o deve estar na raiz do disco}
+
+** >grunt {pronto a aplica��o j� estar� rodando. � preciso que o mongoDB esteja ativo}
+
+**Caso ERRO
+	Only if the install fails, try one of these:
+		1.myApp>npm cache clean
+		2.myApp>npm update
+		3.myApp>bower update
+
+***********************************************************************
+**** Incluindo um m�dulo
+
+** >yo meanjs:crud-module <module-name>
+
+      -- editar o server.model.js
+      -- editar o client.controller.js
+      -- editar o client.view.html
+
+***********************************************************************
+*****Servidor de teste local
+***********************************************************************
+-- C:\myApp\grunt
+->->->-> Deve abrir o navegador com uma pagina Yo <-<-<-<-
+
+*****Testes
+
+-- C:\myApp\grunt test
+->->->-> Rodar� os testes e retornar� problemas <-<-<-<-
+
+*****Arquivos de Configura��o
+ --C:\myApp\config\env
+	--development.js {configura��o para desenvolvimento}
+
+	--test.js {configura��o para testes}
+
+	--production.js {configura��o para produ��o}
+          -- Setando o Banco Correto                                                 OPTIONS
+	    module.exports = { db:'mongodb://username:password@host1:port1/database?poolSize=4;connectTimeoutMS=ms;maxPoolSize=n;'},
+
+***********************************************************************
+*****Deploy Final
+***********************************************************************
+-- C:\Users\Fundtromp-tr02\AndroidStudioProjects\Angular\grunt build
+->-> O Arquivo � gerado dentro do diretorio dist <-<-
+
+*****Rodando em modo de Produ��o
+
+    >set NODE_ENV=production
+    >node server
+
+***********************************************************************
+***** Para rodar como SERVI�O
+***********************************************************************
+**Fazer o arquivo etc/init.d/minha_aplicacao.conf
+    #minha_aplicacao
+     description "node.js my-app website"
+     env FULL_PATH="/home/myuser/app.prod/app"
+     env NODE_PATH="/usr/bin/node"
+
+     start on filesystem or runlevel [2345]
+     stop on [!2345]
+
+     script
+         export HOME="/root"
+         export NODE_ENV=production
+         echo $$ > /var/run/my-app.pid
+         cd $FULL_PATH
+         #Use exec below if you want to launch it under myuser,
+         #don't forget to create /var/log/my-app.sys.log with appropriate permissions
+         #exec sudo -u myuser sh -c "$NODE_PATH server.js >> /var/log/my-app.sys.log 2>&1"
+         exec $NODE_PATH server.js >> /var/log/my-app.sys.log 2>&1
+     end script
+
+     pre-start script
+         echo "[`date`] (sys) Starting" >> /var/log/my-app.sys.log
+     end script
+
+     pre-stop script
+         rm /var/run/my-app.pid
+         echo "[`date`] (sys) Stopping" >> /var/log/my-app.sys.log
+     end script
+
+     #uncomment respawn if you want to restart your service in case of crash
+     #respawn
+     #respawn limit 50 30
+***********************************************************************
+****** Para rodar na porta 80 com APACHE
+***********************************************************************
+*** No Windows alterar o -->C:\Windows\System32\drivers\etc\hosts com
+      127.0.0.1 meanjs.canon     ond "meanjs.canon" � o nome do meu dominio
+*** O httpd.conf --> para --> Listen 80
+*** O httpd-vhosts.conf para:
+<VirtualHost 127.0.0.1:80>
+#    ServerAdmin jcanongia@gmail.com
+    ServerName meanjs.canon
+
+
+    ProxyRequests off
+
+    <Proxy *>
+        Order deny,allow
+        Allow from all
+    </Proxy>
+
+    <Location />
+        ProxyPass http://localhost:3000/
+        ProxyPassReverse http://localhost:3000/
+    </Location>
+
+    ErrorLog C:/apache/logs/meanjs.log
+    LogLevel warn
+    CustomLog C:/apache/logs/meanjs.log combined
+
+</VirtualHost>
+***************************************************************
+****** Para rodar na porta 80 direto no NODEJS
+***************************************************************
+
+*** adicionar a linha abaixo ao /etc/rc.local (em sistemas REDHAT "/ect/rc.d/local")
+    iptables -t nat -A PREROUTING -i eth0 -p tcp --dport 80 -j REDIRECT --to-port 3000
+
+***********************************************************************
+******GIT HUB
+***********************************************************************
+
+  -Bot�o direito no diretorio e "Git Init Here"
+  >smartgit
+  -Selecionar Repositorio Local
+  -Selecionar Repositorio Remote
+  -Commit no Repositorio Local - N�O ESQUECER de colocar uma mensagem
+  --- Se der erro(Cor vermelha do diretorio)
+      for�ar o Commit com
+       >git add --force -- diretorio
+  -Botao direito no diretorio local e
+  ---<Push>
+  -Cada altera��o locar vai ficar rosada, basta clicar e fazer Commit & Push
+
+
+********************************************************************************************************
+    ESTRUTURA DE DIRETORIOS E ARQUIVOS
+********************************************************************************************************
+
+/app  -- Todo o c�digo do lado do Servidor
+/config -- Todos os dados de Configura��o
+/node-modules -- Pacotes que sua aplica��o usa e s�o descritos no
+                 package.json
+/public -- pasta para o Angular, Controller e views do lado do Cliente
+
+*****Relacionamentos na Estrutura
+
+   *****Do lado do Servidor
+    /app/models => s�o as defini��es dos objetos
+    /app/controllers => s�o os controles dos objetos a n�vel de servidor e diz
+                   usarei o model -> Customer = mongoose.model('Customer'),
+    /app/routes => s�o as rotas que os controles ir�o usar, com as a��es
+
+   *****Do lado do Cliente
+    /public/modules/<Nome do Modulo>/services => como o cliente enxergar� o lado do servidor
+    /public/mocules/<Nome do M�dulo>/controllers => s�o os controles a n�vel de cliente,
+                    se referencia aos sevi�os
+
+   *****
+
+
+
+************************************************************************************************************
+******   BOAS PRATICAS   *****
+************************************************************************************************************
+
+****** Escopo
+
+   Quanto ao objeto de escopo que temos no AngularJS, temos algumas regras simples:
+
+   1) O escopo deve ser somente-leitura nos controllers, isso quer dizer que o controller �
+      respons�vel por usar outros componentes, como um servi�o pra pegar os dados que o template
+      vai mostrar e escrever esses dados em um objeto do escopo.
+
+   2) O escopo deve ser somente-leitura nos templates, isso quer dizer que mesmo que o AngularJS
+      permita que escrevamos c�digo que modifica o escopo nos templates, � algo que deve ser feito
+      com muita cautela e se poss�vel evitado.
+
+   3) N�o crie propriedades diretamente no escopo! � um erro comum pensar que o escopo � um
+      componente de modelo do AngularJS. Na verdade, o escopo � s� uma forma de amarrar nossos
+      modelos com os templates, ent�o o modelo deve ser um objeto JavaScript. Usar uma propriedade
+      simples pode e vai causar problemas posteriores com a hierarquia do escopo.
+
+****** M�dulos
+
+   O AngularJS permite que organizemos nossa aplica��o atrav�s de m�dulos, eles s�o basicamente
+   cont�ineres para as partes da nossa aplica��o. Assim como n�o existe regra ou padr�o sobre como
+   modularizar uma aplica��o, deve-se levar em conta a natureza do neg�cio ao inv�s dos diferentes
+   componentes que criamos. Mas o que isso significa?
+
+   As vezes, quando vamos come�ar a brincar com o AngularJS, achamos que � uma boa ideia criar
+   m�dulos diferentes, por exemplo, para nossos controllers, servi�os, diretivas, etc... mas isso
+   provavelmente n�o � a melhor op��o. Por exemplo: digamos que criamos um controller dentro de um
+   m�dulo chamado de 'myapp.controllers' e esse componente depende de um servi�o que est� dentro
+   do m�dulo 'myapp.services'. Quando quisermos usar esse controller em outra aplica��o, vamos
+   precisar n�o apenas do m�dulo com o controle mas o do servi�o tamb�m e quaisquer outros m�dulos
+   que eles tenham como depend�ncias
+
+   Entretanto, se tivermos um m�dulo de login e criamos todos os controllers, services, directives
+   e etc dentro do m�dulo 'myapp.login', poder�amos simplesmente usar esse m�dulo sem precisar de
+   outras depend�ncias.
+
+***********************************************************************
+******* PATTERNS *****
+***********************************************************************
+
+***** TELEFONE - com possibilidade de ativa��o e desativa��o
+     <form name="telForm">
+       <input name="cb" type='checkbox' data-ng-modal='requireTel'>
+       <input name="tel" type="text" ng-model="..." ng-if='requireTel' ng-pattern=" /^\(?(\d{3})\)?[ .-]?(\d{3})[ .-]?(\d{4})$/" required/>
+       <button type="submit" ng-disabled="telForm.$invalid || telForm.$pristine">Submit</button>
+    </form>
+
+***** CPF
+   ng-pattern="/^\d{4,5}-\d{4}$/"
+
+***********************************************************************
+******* PAGINACAO DO LIST *****
+***********************************************************************
+
+ **Pagina��o com mongoose-paginate
+    Install
+ >npm install -S mongoose-paginate
+
+
+ **Adicionar ao Schema
+   var mongoosePaginate = require('mongoose-paginate');
+
+   MySchema.plugin(mongoosePaginate);
+
+
+ **MySchema will have a new function called paginate (e.g. MySchema.paginate()).
+   MySchema.paginate(query, options, [callback])
+
+**Arguments
+
+    query - An object for the Mongoose query.
+    options - An object with options for the Mongoose query, such as sorting and population
+        page - Default: 1
+        limit - Default: 10
+        columns - Default: null
+        sortBy - Default: null
+        populate - Default: null
+        lean - Default: null
+    callback(err, results, pageCount, itemCount) - If specified the callback is called once
+    pagination results are retrieved, or when an error has occurred. Otherwise will return a
+    promise.
+
+Examples
+
+// basic example usage of `mongoose-pagination`
+// querying for `all` {} items in `MySchema`
+// paginating by second page, 10 items per page (10 results, page 2)
+
+var mongoosePaginate = require('mongoose-paginate');
+
+MySchema.plugin(mongoosePaginate);
+
+MySchema.paginate({}, {
+  page: 2, limit: 10
+}, callback);
+
+// basic example usage of `mongoose-pagination` with promises
+// querying for `all` {} items in `MySchema`
+// paginating by second page, 10 items per page (10 results, page 2)
+
+var mongoose = require('mongoose'); // required mongoose v4.1.0 or higher
+mongoose.Promise = require('bluebird');
+var mongoosePaginate = require('mongoose-paginate');
+
+MySchema.plugin(mongoosePaginate);
+
+MySchema.paginate({}, {
+  page: 2, limit: 10
+})
+  .spread(function(questions, pageCount, itemCount) {
+    ...
+  })
+  .catch(function(err) {
+    return next(err);
+  });
+
+// advanced example usage of `mongoose-pagination`
+// querying for `{ columns: 'title', { populate: 'some_ref' },
+ { sortBy : { title : -1 } }` items in `MySchema`
+// paginating by second page, 10 items per page (10 results, page 2)
+
+MySchema.paginate(
+  {},
+  {
+    page: 2,
+    limit: 10,
+    columns: 'title',
+    populate: 'some_ref',
+    sortBy: {
+      title: -1
+    },
+    lean: true
+  },
+  callback
+);
+
+// populating more than one ref
+
+MySchema.paginate({}, {
+  page: 2,
+  limit: 10,
+  columns: 'title',
+  populate: [ 'some_ref', 'other_ref' ],
+  sortBy: {
+    title: -1
+  },
+  lean: true
+}, callback);
+
+// selecting specific field for population
+// <http://mongoosejs.com/docs/api.html#query_Query-populate>
+
+MySchema.paginate({}, {
+  columns: 'title',
+  populate: [
+    {
+      path: 'some_ref',
+      select: 'field_a field_b'
+    },
+    'other_ref'
+  ],
+  sortBy: {
+    title: -1
+  },
+  lean: true
+}, callback);
