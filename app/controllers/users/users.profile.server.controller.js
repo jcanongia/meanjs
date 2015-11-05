@@ -18,6 +18,7 @@ exports.update = function(req, res) {
 	var message = null;
 
 	// For security measurement we remove the roles from the req.body object
+		// Se quiser ter mais de uma roles pou usuário comentar esta linha abaixo
 	delete req.body.roles;
 
 	if (user) {

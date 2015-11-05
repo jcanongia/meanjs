@@ -12,14 +12,20 @@ customersApp.controller('CustomersController', ['$scope', '$stateParams', 'Authe
 	   // Find a list of Customers
 	   this.customers = Customers.query();
 
-		 // Open a modal window to Create a single customer record
+console.log('Estou no CustomersController');
+
+     // Open a modal window to Create a single customer record
 		this.modalCreate = function (size){
+
+console.log('Estou no modalCreate');
+
 			var modalInstance = $modal.open({
 				templateUrl:'modules/customers/views/create-customer.client.view.html',
 				controller: function ($scope, $modalInstance){
 
 					$scope.ok = function() {
-					 $modalInstance.close();
+					$modalInstance.close();
+          location.href='/#!/customers';
 					 };
 
 					$scope.cancel = function () {
@@ -31,9 +37,11 @@ customersApp.controller('CustomersController', ['$scope', '$stateParams', 'Authe
 
 			modalInstance.result.then(function(selectedItem){
 			}, function(){
-				$log.info('Modal dismissed at:' + new Date());
+				$log.info('Novo Cliente criado às:' + new Date());
+        location.href='/#!/customers';
 			});
-		 };
+
+     };
 
 		 // Open a modal window to Update a single customer record
 		 this.modalUpdate = function (size, selectedCustomer){
@@ -162,7 +170,7 @@ customersApp.directive('customerList',['Customers', 'Notify', function (Customer
 	return{
 		restrict:'E',
 		transclude: true,
-		templateUrl:'modules/customers/views/customer-list-template.html',
+		templateUrl:'modules/customers/views/list-customer.template.html',
 		link: function (scope, element, attrs) {
 
       // When a new Customer is added, update the customer list

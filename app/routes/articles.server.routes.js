@@ -9,7 +9,8 @@ var users = require('../../app/controllers/users.server.controller'),
 module.exports = function(app) {
 	// Artigo Routes
 	app.route('/articles')
-		.get(articles.list)
+		.get(users.hasAuthorization(['admin','user']), articles.list)
+		// .get(users.requiresLogin, articles.list) para verificar apenas se o usuário está logado
 		.post(users.requiresLogin, articles.create);
 
 	app.route('/articles/:articleId')

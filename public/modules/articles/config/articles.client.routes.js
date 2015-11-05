@@ -7,11 +7,13 @@ angular.module('articles').config(['$stateProvider',
 		$stateProvider.
 		state('listArtigos', {
 			url: '/articles',
-			templateUrl: 'modules/articles/views/list-articles.client.view.html'
+			templateUrl: 'modules/articles/views/list-articles.client.view.html',
+				controller:'ArticleAuthorizationController'
 		}).
 		state('createArtigo', {
 			url: '/articles/create',
-			templateUrl: 'modules/articles/views/create-article.client.view.html'
+			templateUrl: 'modules/articles/views/create-article.client.view.html',
+
 		}).
 		state('viewArtigo', {
 			url: '/articles/:articleId',

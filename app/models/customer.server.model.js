@@ -74,3 +74,5 @@ var CustomerSchema = new Schema({
 });
 
 mongoose.model('Customer', CustomerSchema);
+// A última linha deste código compila o modelo Customer utilizando o esquema CustomerSchema como estrutura.
+// O Mongoose também cria uma coleção no MongoDB chamada Customers para estes documentos.

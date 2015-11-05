@@ -2,7 +2,7 @@
 
 angular.module('articles').controller('ArtigosController', ['$scope', '$stateParams', '$location', 'Authentication', 'Artigos',
 	function($scope, $stateParams, $location, Authentication, Artigos) {
-		$scope.authentication = Authentication;
+
 
 		$scope.create = function() {
 			var article = new Artigos({

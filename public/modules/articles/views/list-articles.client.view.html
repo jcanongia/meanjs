@@ -2,6 +2,8 @@
 	<div class="page-header">
 		<h1>Artigos</h1>
 	</div>
+	<!-- <span>{{articles}}</span> -->
+
 	<div class="list-group">
 		<a data-ng-repeat="article in articles" data-ng-href="#!/articles/{{article._id}}" class="list-group-item">
 			<small class="list-group-item-text">
@@ -12,6 +14,8 @@
 			</small>
 			<h4 class="list-group-item-heading" data-ng-bind="article.title"></h4>
 			<p class="list-group-item-text" data-ng-bind="article.content"></p>
+
+
 		</a>
 	</div>
 	<div class="alert alert-warning text-center" data-ng-if="articles.$resolved && !articles.length">
