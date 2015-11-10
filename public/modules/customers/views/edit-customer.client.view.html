@@ -47,7 +47,7 @@
           <div class="col-sm-6 col-sm-push-6">
             <div class="form-group">
               <div class="controls">
-                <input type="text" data-ng-model="customer.phone" id="phone" class="form-control" placeholder="Telefone" required>
+                <input type="text" data-ng-model="customer.phone" id="phone" class="form-control" placeholder="Telefone">
               </div>
             </div>
             <div class="form-group">
@@ -71,15 +71,14 @@
               </div>
               <div class="form-group">
                 <div class="controls">
-                  <select data-ng-model="customer.channel" id="channel" class="form-control"
+                  <select data-ng-controller="CustomersController" data-ng-model="customer.channel" id="channel" class="form-control"
                           ng-options="channelItem.item for channelItem in channelOptions">
-                    <option value=""> -- Escolha um Canal --</option>
-                  </select>
+                     <option value="">{{customer.channel}}</option>
+                   </select>
                 </div>
               </div>
             </div>
           </div>
-
           <div class="col-sm-6 col-lg-12 text-center">
             <button class="btn btn-success" type="button" ng-click="customerUpCtrl.update(customer); ok()" ng-disabled="updateCustomerForm.$invalid">Salvar e Fechar</button>
             <button class="btn btn-warning" type="button" ng-click="cancel()">Cancel</button>
@@ -89,4 +88,4 @@
     </div>
 
 
-  </section>
+  </section

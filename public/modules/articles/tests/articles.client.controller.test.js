@@ -2,9 +2,9 @@
 
 (function() {
 	// Artigos Controller Spec
-	describe('ArtigosController', function() {
+	describe('ArticlesController', function() {
 		// Initialize global variables
-		var ArtigosController,
+		var ArticlesController,
 			scope,
 			$httpBackend,
 			$stateParams,
@@ -45,7 +45,7 @@
 			$location = _$location_;
 
 			// Initialize the Artigos controller.
-			ArtigosController = $controller('ArtigosController', {
+			ArticlesController = $controller('ArticlesController', {
 				$scope: scope
 			});
 		}));

@@ -1,7 +1,7 @@
 'use strict';
 
-angular.module('articles').controller('ArtigosController', ['$scope', '$stateParams', '$location', 'Authentication', 'Artigos',
-	function($scope, $stateParams, $location, Authentication, Artigos) {
+angular.module('articles').controller('ArticlesController', ['$scope', '$stateParams', '$location', 'Authentication', 'Artigos', '$http',
+	function($scope, $stateParams, $location, Authentication, Artigos, $http) {
 
 
 		$scope.create = function() {
@@ -45,14 +45,43 @@ angular.module('articles').controller('ArtigosController', ['$scope', '$statePar
 			});
 		};
 
+// Find a list of Articles
 		$scope.find = function() {
 			$scope.articles = Artigos.query();
 		};
 
+// Find existing Article
 		$scope.findOne = function() {
 			$scope.article = Artigos.get({
 				articleId: $stateParams.articleId
 			});
 		};
+
+
+
+// PAGINATION
+
+			 $scope.totalItems = 15;
+			 $scope.currentPage = 1;
+			 $scope.itemsPerPage = 5;
+
+			 $scope.setPage = function (pageNo) {
+					 $scope.currentPage = pageNo;
+			 };
+
+			 $scope.pageChanged = function () {
+					 $scope.getArticles();
+			 };
+
+$scope.getArticles = function () {
+
+				$http.get('/articleList/' + $scope.currentPage).success(function (response) {
+						$scope.articles = response;
+
+				}).error(function (response) {
+						$scope.error = response.message;
+				});
+		};
+// ***************
 	}
 ]);

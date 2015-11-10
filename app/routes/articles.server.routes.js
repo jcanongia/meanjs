@@ -13,6 +13,12 @@ module.exports = function(app) {
 		// .get(users.requiresLogin, articles.list) para verificar apenas se o usuário está logado
 		.post(users.requiresLogin, articles.create);
 
+//PAGINATION
+  app.route('/articleList/:page')
+    .get(articles.articlesList);
+
+//************************
+
 	app.route('/articles/:articleId')
 		.get(articles.read)
 		.put(users.requiresLogin, articles.hasAuthorization, articles.update)

@@ -8,6 +8,8 @@ var mongoose = require('mongoose'),
 	Artigo = mongoose.model('Artigo'),
 	_ = require('lodash');
 
+
+
 /**
  * Create a article
  */
@@ -84,6 +86,31 @@ exports.list = function(req, res) {
 	});
 };
 
+/**
+* Paginate List articles
+**/
+exports.articlesList = function(req, res){
+    if(!req.params.page)
+    {
+        var page = 1;
+    }else{
+        var page = req.params.page;
+    }
+ console.log(req.params);
+  var per_page = 5;
+
+
+    Artigo.find().sort('-created').skip((page-1)*per_page).limit(per_page).populate('user', 'displayName').exec(function(err, articles) {
+        if (err) {
+            return res.status(400).send({
+                message: errorHandler.getErrorMessage(err)
+            });
+        } else {
+            res.json(articles);
+        }
+    });
+};
+// ****************************************
 /**
  * Artigo middleware
  */

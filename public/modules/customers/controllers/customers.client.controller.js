@@ -12,33 +12,42 @@ customersApp.controller('CustomersController', ['$scope', '$stateParams', 'Authe
 	   // Find a list of Customers
 	   this.customers = Customers.query();
 
-console.log('Estou no CustomersController');
+     $scope.channelOptions = [
+       {id: 1, item: 'Facebook'},
+       {id: 2, item: 'Twitter'},
+       {id: 3, item: 'Email'},
+     ];
+
+
+// console.log('Estou no CustomersController');
 
      // Open a modal window to Create a single customer record
 		this.modalCreate = function (size){
 
-console.log('Estou no modalCreate');
+//  console.log('Estou no modalCreate');
 
 			var modalInstance = $modal.open({
 				templateUrl:'modules/customers/views/create-customer.client.view.html',
 				controller: function ($scope, $modalInstance){
-
 					$scope.ok = function() {
-					$modalInstance.close();
+					$log.info('Novo Cliente criado em:' + new Date());
+
+
+          $modalInstance.close();
           location.href='/#!/customers';
 					 };
 
 					$scope.cancel = function () {
 					 $modalInstance.dismiss('cancel');
-				 };
+				   location.href='/#!/customers';
+         };
 				},
 				size: size
 			});
 
 			modalInstance.result.then(function(selectedItem){
 			}, function(){
-				$log.info('Novo Cliente criado às:' + new Date());
-        location.href='/#!/customers';
+
 			});
 
      };
@@ -51,11 +60,16 @@ console.log('Estou no modalCreate');
 					 $scope.customer = customer;
 
 					 $scope.ok = function() {
-						 $modalInstance.close($scope.customer);
+						 $scope.customer.channel= $scope.customer.channel.item; //Atribuo o item do array Channels no objeto channel que é persistido
+             $modalInstance.close($scope.customer);
+             $log.info('Cliente alterado em:' + new Date());
+             alert('Cliente Nome: '+($scope.customer.firstName)+'  alterado em: ' + new Date());
+             location.href='/#!/customers';
 					 };
 
 					 $scope.cancel = function () {
 					 	$modalInstance.dismiss('cancel');
+            location.href='/#!/customers';
 					};
 				 },
 			   size: size,
@@ -68,9 +82,11 @@ console.log('Estou no modalCreate');
 
 		   modalInstance.result.then(function(selectedItem){
 			   $scope.selected = selectedItem;
-		   }, function(){
-			   $log.info('Modal dismissed at:' + new Date());
-		   });
+
+		   },
+        function(){
+
+       });
    	};
 
 		// Remove existing Customer
@@ -95,11 +111,6 @@ console.log('Estou no modalCreate');
 customersApp.controller('CustomersCreateController', ['$scope', 'Customers', 'Notify',
 	function($scope, Customers, Notify) {
 
-    $scope.channelOptions = [
-      {id: 1, item: 'Facebook'},
-      {id: 2, item: 'Twitter'},
-      {id: 3, item: 'Email'},
-    ];
 
     	// Create new Customer
 		this.create = function() {
@@ -114,14 +125,14 @@ customersApp.controller('CustomersCreateController', ['$scope', 'Customers', 'No
 				email: this.email,
 				phone: this.phone,
 				referred: this.referred,
-				channel: this.channel
+				channel: this.channel.item
 		    	});
 
         // Redirect after save
 			customer.$save(function(response) {
 
         Notify.sendMsg('NewCustomer', {'id': response._id});
-
+        alert('Cliente Nome: '+(customer.firstName)+'  criado em: ' + new Date());
 
 		// // Clear form fields
 				// $scope.firstName = '';
@@ -141,21 +152,17 @@ customersApp.controller('CustomersCreateController', ['$scope', 'Customers', 'No
 ]);
 
 
-customersApp.controller('CustomersUpdateController', ['$scope', 'Customers',
-	function($scope, Customers) {
+customersApp.controller('CustomersUpdateController', ['$scope', 'Customers', 'Notify',
+	function($scope, Customers, Notify) {
 
-    $scope.channelOptions = [
-      {id: 1, item: 'Facebook'},
-      {id: 2, item: 'Twitter'},
-      {id: 3, item: 'Email'},
-    ];
-
-
-		// Update existing Customer
+    	// Update existing Customer
 		this.update = function(updatedCustomer) {
+      //console.log (updatedCustomer.channel);
+
 			var customer = updatedCustomer;
 
-			customer.$update(function() {
+			customer.$update(function(response) {
+      Notify.sendMsg('UpdatedCustomer', {'id': response._id});
 
 			}, function(errorResponse) {
 				$scope.error = errorResponse.data.message;

@@ -1,8 +1,13 @@
-<section data-ng-controller="ArtigosController" data-ng-init="find()">
+<!-- <section data-ng-controller="ArticlesController" data-ng-init="find()"> -->
+
+<!-- PAGINATION -->
+<section data-ng-controller="ArticlesController" data-ng-init="getArticles()">
+<!-- ************************ -->
 	<div class="page-header">
 		<h1>Artigos</h1>
 	</div>
-	<!-- <span>{{articles}}</span> -->
+
+<!-- <span>{{articles}}</span> -->
 
 	<div class="list-group">
 		<a data-ng-repeat="article in articles" data-ng-href="#!/articles/{{article._id}}" class="list-group-item">
@@ -14,11 +19,15 @@
 			</small>
 			<h4 class="list-group-item-heading" data-ng-bind="article.title"></h4>
 			<p class="list-group-item-text" data-ng-bind="article.content"></p>
-
-
 		</a>
 	</div>
-	<div class="alert alert-warning text-center" data-ng-if="articles.$resolved && !articles.length">
+	<!-- <div class="alert alert-warning text-center" data-ng-if="articles.$resolved && !articles.length">
 		No articles yet, why don't you <a href="/#!/articles/create">create one</a>?
-	</div>
+	</div> -->
+{{itemsPerPage}}
+<pagination total-items="totalItems" items-per-page="itemsPerPage" ng-model="currentPage" ng-change="pageChanged()"></pagination>
+    <div class="alert alert-warning text-center" data-ng-if="articles.$resolved && !articles.length">
+        No articles yet, why don't you <a href="/#!/articles/create">create one</a>?
+    </div>
+
 </section>
