@@ -14,7 +14,7 @@ module.exports = function(app) {
 		.post(users.requiresLogin, articles.create);
 
 //PAGINATION
-  app.route('/articleList/:page')
+  app.route('/articleList/:page/:query')
     .get(articles.articlesList);
 
 //************************
@@ -23,6 +23,9 @@ module.exports = function(app) {
 		.get(articles.read)
 		.put(users.requiresLogin, articles.hasAuthorization, articles.update)
 		.delete(users.requiresLogin, articles.hasAuthorization, articles.delete);
+
+	app.route('/totalRegistros')
+    .get(articles.totalRegistros);
 
 	// Finish by binding the article middleware
 	app.param('articleId', articles.articleByID);
