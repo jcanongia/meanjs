@@ -48,6 +48,7 @@ angular.module('articles').controller('ArticlesController', ['$scope', '$statePa
 // Find a list of Articles
 		$scope.find = function() {
 			$scope.articles = Artigos.query();
+
 		};
 
 // Find existing Article
@@ -61,9 +62,8 @@ angular.module('articles').controller('ArticlesController', ['$scope', '$statePa
 
 // PAGINATION
 
-			 $scope.totalItems = 15;
 			 $scope.currentPage = 1;
-			 $scope.itemsPerPage = 5;
+			 $scope.itemsPerPage = 4; //vai setar o parametro rea.params.query no server.controller
 
 			 $scope.setPage = function (pageNo) {
 					 $scope.currentPage = pageNo;
@@ -74,14 +74,21 @@ angular.module('articles').controller('ArticlesController', ['$scope', '$statePa
 			 };
 
 $scope.getArticles = function () {
-
-				$http.get('/articleList/' + $scope.currentPage).success(function (response) {
-						$scope.articles = response;
-
-				}).error(function (response) {
-						$scope.error = response.message;
-				});
-		};
+		$http.get('/totalRegistros').success(function (response) {//busca direto no artigo.server.route
+			// console.log(response);
+				$scope.totalItems = response;
+							$http.get('/articleList/'+$scope.currentPage+'/'+$scope.itemsPerPage)//busca direto no artigo.server.route
+					    .success(function (response) {
+									$scope.articles = response;
+									})
+							.error(function (response) {
+							 	$scope.error = response.message;
+				      });
+						})
+						.error(function (response) {
+						   	$scope.error = response.message;
+					    });
+	};
 // ***************
 	}
 ]);
