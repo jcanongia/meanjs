@@ -87,8 +87,25 @@ exports.list = function(req, res) {
 };
 
 /**
+* Paginate Total de Itens
+**/
+exports.totalRegistros = function(req, res) {
+	Artigo.count(function(err, c) {
+		if (err) {
+			return res.status(400).send({
+				message: errorHandler.getErrorMessage(err)
+			});
+		} else {
+			// console.log('Count is ' + c);
+			res.json(c);
+		}
+	});
+};
+
+/**
 * Paginate List articles
 **/
+
 exports.articlesList = function(req, res){
     if(!req.params.page)
     {
@@ -96,18 +113,15 @@ exports.articlesList = function(req, res){
     }else{
         var page = req.params.page;
     }
- console.log(req.params);
-  var per_page = 5;
+// console.log(req.params.page);
 
+  var per_page = req.params.query;
+// console.log(req.params.query);
 
     Artigo.find().sort('-created').skip((page-1)*per_page).limit(per_page).populate('user', 'displayName').exec(function(err, articles) {
-        if (err) {
-            return res.status(400).send({
-                message: errorHandler.getErrorMessage(err)
-            });
-        } else {
-            res.json(articles);
-        }
+        if (err) {return res.status(400).send({
+                message: errorHandler.getErrorMessage(err)});
+        } else {res.json(articles);}
     });
 };
 // ****************************************
