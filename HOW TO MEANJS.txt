@@ -233,7 +233,7 @@ http://tableless.com.br/yeoman-e-quando-as-coisas-dao-errado/
 ***********************************************************************
 
   -Bot�o direito no diretorio e "Git Init Here"
-  >smartgit
+  >abrir o programa SmartGit
   -Selecionar Repositorio Local
   -Selecionar Repositorio Remote
   -Commit no Repositorio Local - N�O ESQUECER de colocar uma mensagem
