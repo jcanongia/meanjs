@@ -54,7 +54,7 @@ Instalar Node.js, MongoDB, Git e Bower ("C:\Users\Fundtromp-tr02\Downloads\ANDRO
 ****Colocando login e senha no MongoDB ****
 1) In mongo command line: (let say, set administrator)
   > use admin;
-  > db.addUser('admin','123456');
+  > db.createUser('admin','123456');
 2) Shutdown Server and exit
   > db.shutdownServer();
   > exit
