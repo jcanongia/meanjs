@@ -51,7 +51,9 @@ Instalar Node.js, MongoDB, Git e Bower ("C:\Users\Fundtromp-tr02\Downloads\ANDRO
    iniciar como administrador e
    >net start MongoDB
 
-****Colocando login e senha no MongoDB ****
+****Colocando login e senha no MongoDB **** 
+----------Com o MongoChef : http://3t.io/blog/mongodb-3-0-setting-up-user-authentication/
+----------Criando Usuarios com o MongoChef : http://3t.io/blog/create-new-users-mongodb/?utm_source=blogposts&utm_medium=welcomepage&utm_campaign=inapp
 1) In mongo command line: (let say, set administrator)
   > use admin;
   > db.createUser('admin','123456');
@@ -154,8 +156,8 @@ http://tableless.com.br/yeoman-e-quando-as-coisas-dao-errado/
 
 *****Rodando em modo de Produ��o
 
-    >set NODE_ENV=production
-    >node server
+    >set NODE_ENV=production && node server
+    
 
 ***********************************************************************
 ***** Para rodar como SERVI�O
