@@ -1,0 +1,70 @@
+1. Enable Authentication after Creating the User Administrator
+***************************************************************
+This straight-forward approach involves the following 3 sequential steps:
+    Start your MongoDB server without authentication.
+    Create the system user administrator.
+    Restart your MongoDB, this time with authentication enabled. You can now connect to your server as that user administrator.
+    
+*******************************************************************
+2. Enable Authentication Right Away and Use the Localhost Exception
+*******************************************************************
+This approach lets you run your MongoDB server with authentication right from the beginning. However, you need to have localhost access to your server:
+    Start your MongoDB server with authentication enabled straight away.
+    Now connect to your MongoDB server from localhost. This localhost exception grants you full access (i.e. without any authentication required) to your instance via the localhost interface. Note that the localhost exception is only active as long as no users have been created in your MongoDB instance. Btw, you can always disable the local host exception by passing —setParameter enableLocalhostAuthBypass=0 to your server.
+    Proceed to create your system user administration – which must be the first user you create this way.
+
+***********************************
+Bootstrapping User Administration
+***********************************
+Since it won’t always be possible to connect to your MongoDB server via your localhost interface, we will use the first approach in this post and create the user administrator before we restart our MongoDB server with authentication.
+
+1. Start your MongoDB server without authentication
+From your command line (on your server), start your MongoDB server. For the sake of simplicity, we’ll just start a single mongod instance using the new WiredTiger storage engine:
+    mongod —dbpath ./data/3.0.0 —storageEngine wiredTiger —port 27017
+Note that your data path, your port and other options may differ from this simple example.
+The main thing is that you start the server without authentication (i.e. you do not pass —auth to it).
+
+2. Create the system user administrator
+Now, let’s quickly connect to our MongoDB server. In MongoChef, click the “Connect” icon in the toolbar and then choose “Quick Connect” in the Connection Manager. Here, simply enter the name or the IP address of your server, and then just click “Connect”.
+
+QuickConnect to a MongoDB with MongoChef GUI
+
+In MongoDB, system-wide users (i.e. users that can have access to all other databases on the server) need to be created in a special database “admin”. If you have only just started your server for the first time, you probably won’t have an “admin” database yet. So, let’s quickly create one (if you already have an “admin” database, just skip this step).
+To add the “admin” database to your MongoDB instance, simply right-click your connection, choose “Add Database…” and name your new database admin:
+
+MongoDB Add Admin Database
+
+Now, we can add our system-wide user administrator. A system-wide user administrator is simply an (arbitrarily named) user defined in your “admin” database that has – at least – been granted privileges to create other users. To start, select your “admin” database, right-click, and choose “Manage Users”. This will open a user management tab for the “admin” database. Of course, since we are only just getting started, there aren’t any users defined yet. Click the “Add…” button to add a new user.
+
+MongoDB Add Admin User
+
+Enter a name (anything goes) for your new user and a password. In order to make this new user a system-wide user administrator, we now need to assign it an appropriate role. For this, click the “Grant Roles…” button.
+
+MongoDB Create Admin User
+
+Now, choose from the list of all built-in roles defined for database “admin” the role “userAdminAnyDatabase”. This role will grant the user the privileges required to create (additional) users in any database on your server. Click “Grant” to close the roles selection dialog.
+Your Add User dialog will now show that role for your new user:
+
+MongoDB Grant User Admin Role
+
+Click “Add User” to create your new system-wide user administrator.
+*************************************************************
+3. Restart your MongoDB instance with authentication enabled
+*************************************************************
+OK, now that we have a user administrator, we need to restart our MongoDB instance – this time with authentication enabled – as part of the process to bootstrap MongoDB user authentication.
+
+Before restarting your server, disconnect MongoChef from it first. Simply right-click your connection and choose “Disconnect” from the context menu. Next, let’s restart our MongoDB instance with authentication enabled, again from your command line (on your server):
+
+    mongod —dbpath ./data/3.0.0 —storageEngine wiredTiger —auth —port 27017
+
+That’s it! You have successfully set up user authentication on your MongoDB server!
+*************************************************************************
+Connect to your MongoDB instance with your system-wide user administrator
+*************************************************************************
+You can now connect to your MongoDB instance with your system-wide user administrator and create additional users. As before, open your Connection Manager. Since adding new users will probably not be a one-off task, we recommend that this time you create a new connection (rather than just quick-connect to your server).
+
+The IP and port of your server will be the same as before, but this time we need to specify the user we want to connect with in the “Authentication” tab. Enter the name and the password of your system-wide user administrator here and make sure that you specify the database “admin” as that is where the user was defined. Note that MongoChef will automatically use the new challenge-response SCRAM-SHA-1 user authentication mechanism introduced in MongoDB 3.0.
+
+MongoChef for MongoDB: Authenticate User Admin
+
+After you have connected, you can then go on and define additional users for any database on your server. See this tutorial video for more details.
