@@ -1,0 +1,17 @@
+1. Select the MongoDB database for which you want to create a new user
+**********************************************************************
+In MongoDB, users are defined for a particular database. Although it is possible to grant a user from a database A access to another database B, users are typically defined in the database that they will access primarily.
+
+So, start by connecting to your MongoDB instance with your user administrator or with any other user that has sufficient privileges to create new users (usually via roles dbAdmin or dbAdminAnyDatabase). Next, right-click the database for which you want to create a new user and select “Manage Users” from the context menu. This will open the user management tab for your database. Here, you can see all users that have already been created for this database. You can also expand users to immediately see all the roles they have been granted. To create a new user, simply click the “Add…” button.
+*************************************************************
+2. Enter the new user
+*************************************************************
+This will bring up the Add User dialog where you can enter the name of the new user (in our case “sarah”) and their password. Next, we need to grant the new user a role so that they’ll actually be able to do something. For that, click the “Grant Roles…” button.
+************************************************************
+3. Grant roles to the user
+************************************************************
+In this dialog, you will be presented with all roles that are currently defined for your database. Built-in roles will be marked by a yellow icon, custom roles by a green icon. You can also click the combo-box at the top to choose from roles in other databases of your MongoDB instance in case you want your new user to access other databases as well. For our example, we will simply make our new user an administrator of their database and also grant them read-write access to it by selecting the roles dbAdmin and readWrite. When done, click the “Grant” button.
+***********************************************************
+4. Create the new user
+***********************************************************
+You return to the previous dialog where you can now see the roles that will be granted to your new user. To create the new user, click the “Add User” button. After that, you will be taken back to the user management tab.
