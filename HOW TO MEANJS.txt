@@ -52,6 +52,7 @@ Instalar Node.js, MongoDB, Git e Bower ("C:\Users\Fundtromp-tr02\Downloads\ANDRO
    >net start MongoDB
 
 ****Colocando login e senha no MongoDB **** 
+----------Para conectar no DigitalOcean tem que comentar "bindIp: 127.0.0.1"
 ----------Com o MongoChef : http://3t.io/blog/mongodb-3-0-setting-up-user-authentication/
 ----------Criando Usuarios com o MongoChef : http://3t.io/blog/create-new-users-mongodb/?utm_source=blogposts&utm_medium=welcomepage&utm_campaign=inapp
 1) In mongo command line: (let say, set administrator)
