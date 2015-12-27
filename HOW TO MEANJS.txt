@@ -154,6 +154,13 @@ http://tableless.com.br/yeoman-e-quando-as-coisas-dao-errado/
 ***********************************************************************
 -- C:\Users\Fundtromp-tr02\AndroidStudioProjects\Angular\grunt build
 ->-> O Arquivo � gerado dentro do diretorio dist <-<-
+-- Recomenda-se remover todo o diretorio node_modules e
+   rodar 'npm install --production' deixar somentes os modulos usados.
+-- rodar 'npm dedupe' no diretorio da aplicaçao, retirar as duplicatas.
+-- se necessario navegar até o modulo que tiver mais de 255 caracteres no caminho e
+   - rodar 'npm ls' para ver a arvore de dependencias
+   - rodar 'npm-flatten' que irá compactar a arvore
+   - rodar 'npm ls' again to see results.
 
 *****Rodando em modo de Produ��o
 
