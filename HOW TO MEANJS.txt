@@ -170,38 +170,51 @@ http://tableless.com.br/yeoman-e-quando-as-coisas-dao-errado/
 ***********************************************************************
 ***** Para rodar como SERVI�O
 ***********************************************************************
-**Fazer o arquivo etc/init.d/minha_aplicacao.conf
-    #minha_aplicacao
-     description "node.js my-app website"
-     env FULL_PATH="/home/myuser/app.prod/app"
-     env NODE_PATH="/usr/bin/node"
+**Fazer o arquivo etc/init.d/minha_aplicacao
+    #! /bin/sh
+ start(){
+  export FULL_PATH="/opt/gerpessoal"
+  export NODE_PATH="/usr/local/bin"
+	export HOME="/home/gerpessoal"
+	export NODE_ENV=production
+	cd $FULL_PATH
+        echo "starting node... "
+	echo "[`date`] (sys) Starting" >> /opt/gerpessoal/gerpessoal.log
+        su -c 'node server &' >> /opt/gerpessoal/gerpessoal.log 2>&1
+ }
+ stop(){
+	cd $FULL_PATH
+        echo "stopping node... "
+	echo "[`date`] (sys) Stopping" >> /opt/gerpessoal/gerpessoal.log
+        pkill -2 -f node
+        sleep 60
+# proteçao contra serviços resistentes
+      su -c 'pkill -9 -f node'
+ }
+ restart(){
+        stop
+ # give stuff some time to stop before we restart
+        sleep 60
+ # proteçao contra serviços resistentes
+        su -c 'pkill -9 -f node'
+        start
+}
+case "$1" in
+  start)
+        start
+        ;;
+  stop)
+        stop
+        ;;
+  restart)
+        restart
+        ;;
+  *)
+        echo "Usage: node {start|stop|restart}"
+        exit 1
+esac
+exit 0
 
-     start on filesystem or runlevel [2345]
-     stop on [!2345]
-
-     script
-         export HOME="/root"
-         export NODE_ENV=production
-         echo $$ > /var/run/my-app.pid
-         cd $FULL_PATH
-         #Use exec below if you want to launch it under myuser,
-         #don't forget to create /var/log/my-app.sys.log with appropriate permissions
-         #exec sudo -u myuser sh -c "$NODE_PATH server.js >> /var/log/my-app.sys.log 2>&1"
-         exec $NODE_PATH server.js >> /var/log/my-app.sys.log 2>&1
-     end script
-
-     pre-start script
-         echo "[`date`] (sys) Starting" >> /var/log/my-app.sys.log
-     end script
-
-     pre-stop script
-         rm /var/run/my-app.pid
-         echo "[`date`] (sys) Stopping" >> /var/log/my-app.sys.log
-     end script
-
-     #uncomment respawn if you want to restart your service in case of crash
-     #respawn
-     #respawn limit 50 30
 ***********************************************************************
 ****** Para rodar na porta 80 com APACHE
 ***********************************************************************
